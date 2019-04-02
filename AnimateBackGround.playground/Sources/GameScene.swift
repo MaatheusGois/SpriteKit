@@ -3,26 +3,33 @@ import PlaygroundSupport
 import SpriteKit
 
 public class GameScene: SKScene {
+    //initalize
+    var background : SKSpriteNode!
+    var textureOfBackground = SKTexture(imageNamed: "fundo.jpg")
     
-    var fundo : SKSpriteNode!
-    var textura = SKTexture(imageNamed: "fundo.jpg")
-    var escalaTela = CGFloat(2)
+    //declare your screen scale
+    var sceenScale = CGFloat(2)
     
     override public func didMove(to view: SKView) {
-        fundo = SKSpriteNode(texture: textura)
-        fundo.setScale(escalaTela)
+        //init the background with your texture and set your scale
+        background = SKSpriteNode(texture: textureOfBackground)
+        background.setScale(sceenScale)
         
-        let moveFundo = SKAction.moveBy(x: -fundo.size.width * 2, y:0 , duration: 9)
-        let reposicionaFundo = SKAction.moveBy(x: fundo.size.width * 2, y:0 , duration: 0)
-        let moveFundoSempre = SKAction.repeatForever(SKAction.sequence([moveFundo, reposicionaFundo]))
+        //set the transition of the background
+        let moveBackground = SKAction.moveBy(x: -background.size.width * 2, y:0 , duration: 9)
+        let repositionBackground = SKAction.moveBy(x: background.size.width * 2, y:0 , duration: 0)
+       
+        //declare the sequence
+        let moveBackgroundForever = SKAction.repeatForever(SKAction.sequence([moveBackground, repositionBackground]))
         
+        //Add 3 backgrounds in complementary positions
         for i in 0...2 {
-            fundo = SKSpriteNode(texture: textura)
-            fundo.setScale(escalaTela)
-            fundo.position = CGPoint(x: textura.size().width * CGFloat(i) * escalaTela, y: 0)
-            fundo.alpha = 0.75
-            fundo.run(moveFundoSempre)
-            addChild(fundo)
+            background = SKSpriteNode(texture: textureOfBackground)
+            background.setScale(sceenScale)
+            background.position = CGPoint(x: textureOfBackground.size().width * CGFloat(i) * sceenScale, y: 0)
+            background.alpha = 0.75
+            background.run(moveBackgroundForever)
+            addChild(background)
         }
     }
     

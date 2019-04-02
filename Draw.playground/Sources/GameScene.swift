@@ -3,29 +3,12 @@ import PlaygroundSupport
 import SpriteKit
 
 public class GameScene: SKScene {
-    //initialize
-    var felpudo:SKSpriteNode!
-    var arrayImagensFelpudo:[SKTexture] = []
+    
+    var path:CGMutablePath!
+    var line:SKShapeNode!
     
     override public func didMove(to view: SKView) {
-        //create felpudo
-        felpudo = SKSpriteNode(imageNamed: "Animate0")
-        
-        
-        //You can add more Animate to the sequence
-        for i in 0...1{
-            arrayImagensFelpudo.append(SKTexture(imageNamed: "Animate\(i)"))
-            print(i)
-        }
-        
-        //you create the action
-        var animate = SKAction.animate(with: arrayImagensFelpudo, timePerFrame: 1)
-        
-        //declare the sequence as infinit
-        felpudo.run(.repeatForever(animate))
-        
-        //add felpudo to screen
-        addChild(felpudo)
+        backgroundColor = .black
     }
     
     @objc static public override var supportsSecureCoding: Bool {
@@ -35,12 +18,31 @@ public class GameScene: SKScene {
     }
     
     func touchDown(atPoint pos : CGPoint) {
+        //Starting the path
+        path = CGMutablePath()
+        //Start point
+        path.move(to: pos)
+        
+        //Creating the Shape that follows the path and setting its properties
+        line = SKShapeNode()
+        line.strokeColor = .white
+        line.lineWidth = 2
+        addChild(line)
+        
+        //Saying which path it'll follow
+        line.path = path
     }
     
     func touchMoved(toPoint pos : CGPoint) {
+        //Points after the start
+        path.addLine(to: pos)
+        //Updating the path to follow
+        line.path = path
     }
     
     func touchUp(atPoint pos : CGPoint) {
+        
+        
     }
     
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
